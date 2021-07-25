@@ -6,7 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint-fix": "npm run lint --fix",
+    "prettier": "prettier --config .prettierrc .",
+    "check-format": "npm run prettier -- --check",
+    "check-lint-format": "npm run check-format && npm run lint",
+    "format": "npm run prettier -- --write",
+    "fix": "npm run format && npm run lint-fix"
   },
   "dependencies": {
     "next": "11.0.1",
@@ -15,8 +21,27 @@
   },
   "devDependencies": {
     "@types/react": "17.0.14",
+    "@typescript-eslint/eslint-plugin": "^4.28.4",
+    "@typescript-eslint/parser": "^4.28.4",
     "eslint": "7.31.0",
     "eslint-config-next": "11.0.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^4.3.8",
+    "lint-staged": "^11.1.1",
+    "prettier": "2.3.2",
     "typescript": "4.3.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint '*/**/*.{ts,tsx,js,jsx}' --fix",
+      "git add"
+    ]
   }
 }
