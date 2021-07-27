@@ -11,16 +11,23 @@ export const Users = ({ users, onUsersSearch, searchPhrase }: UsersProps): JSX.E
     <div>
       {users ? (
         <div>
-          <input type="text" onChange={handleChange} value={searchPhrase} />
-          {users.length ? (
-            users.map((user, index) => (
-              <p key={user.id}>
-                {index + 1}. {user.name} @{user.email}
-              </p>
-            ))
-          ) : (
-            <div>No results</div>
-          )}
+          <input
+            type="text"
+            onChange={handleChange}
+            value={searchPhrase}
+            data-testid="search-users-input"
+          />
+          <div>
+            {users.length ? (
+              users.map((user, index) => (
+                <div key={user.id}>
+                  <span>{index + 1}.</span> <span>{user.name}</span> <span>@{user.email}</span>
+                </div>
+              ))
+            ) : (
+              <div>No results</div>
+            )}
+          </div>
         </div>
       ) : (
         <div>

@@ -7,18 +7,18 @@ import { useUsersDispatch, useUsersState } from './Users.hooks';
 export const UsersContainer = (): JSX.Element => {
   const { searchedUsers, searchPhrase } = useUsersState();
   const dispatchUsers = useUsersDispatch();
-  const { push, query } = useRouter();
+  const router = useRouter();
 
   const handleSearchUsers = (searchPhrase: string) => {
     dispatchUsers(searchUsers({ searchPhrase }));
 
-    if (!searchPhrase && query.user) {
-      push({ pathname: '/' }, { pathname: '/' }, { shallow: true });
+    if (!searchPhrase && router.query.user) {
+      router.push({ pathname: '/' }, { pathname: '/' }, { shallow: true });
       return;
     }
 
     const url = { pathname: '/', query: { user: searchPhrase } };
-    push(url, url, { shallow: true });
+    router.push(url, url, { shallow: true });
   };
 
   return (
