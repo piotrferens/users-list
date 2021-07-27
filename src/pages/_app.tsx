@@ -1,6 +1,18 @@
 import type { AppProps } from 'next/app';
 
-function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-  return <Component {...pageProps} />;
-}
-export default MyApp;
+import { CreatePageComponent, defaultPageMeta } from '../createPage';
+
+export type OwnAppProps = AppProps & { Component: CreatePageComponent };
+
+const App = ({ Component, pageProps }: OwnAppProps): JSX.Element => {
+  const pageMeta = Component.meta || defaultPageMeta;
+
+  const page = pageMeta.renderLayout({
+    page: <Component {...pageProps} />,
+    pageProps: pageProps,
+  });
+
+  return page;
+};
+
+export default App;
