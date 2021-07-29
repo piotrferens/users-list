@@ -24,8 +24,17 @@ export type UsersContextControllerProps = Pick<
   children: ReactNode;
 };
 
+export enum StatusState {
+  Idle = 'IDLE',
+  Loading = 'LOADING',
+  Success = 'SUCCESS',
+  Error = 'ERROR',
+}
+
 export interface UsersProps {
   users: UsersPayload;
   onUsersSearch: (searchPhrase: string) => void;
   searchPhrase: string;
+  onClick: VoidFunction;
+  status: StatusState;
 }

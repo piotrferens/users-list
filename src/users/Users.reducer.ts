@@ -1,4 +1,4 @@
-import { SEARCH_USERS, UsersActions } from './Users.actions';
+import { FETCH_USER, SEARCH_USERS, UsersActions } from './Users.actions';
 import { UsersState } from './Users.types';
 import { findUsers } from './Users.utils';
 
@@ -14,6 +14,18 @@ export const usersReducer = (state: UsersState, action: UsersActions): UsersStat
           searchPhrase: action.payload.searchPhrase,
         }),
         searchPhrase: action.payload.searchPhrase,
+      };
+    case FETCH_USER:
+      return {
+        ...state,
+        allUsers: action.payload.users,
+        searchedUsers: action.payload.searchPhrase
+          ? findUsers({
+              users: action.payload.users,
+              searchPhrase: action.payload.searchPhrase,
+            })
+          : action.payload.users,
+        searchPhrase: action.payload.searchPhrase ?? '',
       };
     default:
       return state;
