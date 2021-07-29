@@ -46,7 +46,7 @@ export const UsersContainer = (): JSX.Element => {
       searchPhrase={searchPhrase}
       users={searchedUsers}
       onUsersSearch={handleSearchUsers}
-      onClick={handleFetchUsers}
+      onRefetch={handleFetchUsers}
       status={status}
     />
   );

@@ -35,6 +35,6 @@ export interface UsersProps {
   users: UsersPayload;
   onUsersSearch: (searchPhrase: string) => void;
   searchPhrase: string;
-  onClick: VoidFunction;
+  onRefetch: VoidFunction;
   status: StatusState;
 }
