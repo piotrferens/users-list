@@ -1,48 +1,39 @@
-import { ChangeEvent } from 'react';
+import { css } from '@emotion/react';
 
+import { EmptyList } from './components/EmptyList';
+import { Input } from './components/Input';
+import { Layout } from './components/Layout';
+import { Loader } from './components/Loader';
+import { UsersList } from './components/UsersList';
 import { StatusState, UsersProps } from './Users.types';
+
+const inputStyles = css`
+  margin-bottom: 24px;
+`;
 
 export const Users = ({
   users,
   onUsersSearch,
   searchPhrase,
-  onClick,
+  onRefetch,
   status,
-}: UsersProps): JSX.Element => {
-  const handleChange = ({ target: { value: searchPhrase } }: ChangeEvent<HTMLInputElement>) => {
-    onUsersSearch(searchPhrase);
-  };
-
-  return (
-    <div>
-      {users && (status === StatusState.Idle || status === StatusState.Success) ? (
-        <div>
-          <input
-            type="text"
-            onChange={handleChange}
-            value={searchPhrase}
-            data-testid="search-users-input"
-          />
-          <div>
-            {users.length ? (
-              users.map((user, index) => (
-                <div key={user.id}>
-                  <span>{index + 1}.</span> <span>{user.name}</span> <span>@{user.email}</span>
-                </div>
-              ))
-            ) : (
-              <div>No results</div>
-            )}
-          </div>
-        </div>
-      ) : status === StatusState.Loading ? (
-        <div data-testid="users-loader">Loading...</div>
-      ) : (
-        <div>
-          <p>Something went wrong</p>
-          <button onClick={onClick}>Refetch</button>
-        </div>
-      )}
-    </div>
-  );
-};
+}: UsersProps): JSX.Element => (
+  <Layout>
+    <h1>Users list</h1>
+    {users && (status === StatusState.Idle || status === StatusState.Success) ? (
+      <div>
+        <Input
+          value={searchPhrase}
+          onChange={onUsersSearch}
+          placeholder="Find users"
+          css={inputStyles}
+        />
+        <UsersList users={users} />
+      </div>
+    ) : status === StatusState.Loading ? (
+      <Loader />
+    ) : (
+      <EmptyList onRefetch={onRefetch} />
+    )}
+  </Layout>
+);

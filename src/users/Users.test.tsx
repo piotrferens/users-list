@@ -192,7 +192,7 @@ describe('UsersPage', () => {
     jest.spyOn(users, 'fetchUsers').mockResolvedValueOnce([userFactory({ id: 1, name: 'Vader' })]);
 
     fireEvent.click(refetch);
-    expect(await screen.findByText('Loading...')).toBeInTheDocument();
+    expect(screen.queryByText('Loading...')).toBeInTheDocument();
 
     await waitFor(() => screen.getByText('Vader'));
 
