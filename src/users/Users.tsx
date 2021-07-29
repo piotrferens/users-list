@@ -1,15 +1,21 @@
 import { ChangeEvent } from 'react';
 
-import { UsersProps } from './Users.types';
+import { StatusState, UsersProps } from './Users.types';
 
-export const Users = ({ users, onUsersSearch, searchPhrase }: UsersProps): JSX.Element => {
+export const Users = ({
+  users,
+  onUsersSearch,
+  searchPhrase,
+  onClick,
+  status,
+}: UsersProps): JSX.Element => {
   const handleChange = ({ target: { value: searchPhrase } }: ChangeEvent<HTMLInputElement>) => {
     onUsersSearch(searchPhrase);
   };
 
   return (
     <div>
-      {users ? (
+      {users && (status === StatusState.Idle || status === StatusState.Success) ? (
         <div>
           <input
             type="text"
@@ -29,10 +35,12 @@ export const Users = ({ users, onUsersSearch, searchPhrase }: UsersProps): JSX.E
             )}
           </div>
         </div>
+      ) : status === StatusState.Loading ? (
+        <div data-testid="users-loader">Loading...</div>
       ) : (
         <div>
-          <p>Something went wrong refetch</p>
-          <button>Refetch</button>
+          <p>Something went wrong</p>
+          <button onClick={onClick}>Refetch</button>
         </div>
       )}
     </div>
